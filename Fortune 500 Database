@@ -57,6 +57,7 @@ VALUES
     ('Company JJ', 'Manufacturing', 370.0, 3100, 1, 20, 12, 7.6),
     ('Company KK', 'Healthcare', 150.2, 3400, 0, 16, 8, 5.3);
 
+#POV You're a Fortune 500 Company trying to see where you stand in comparison to others in terms of revenue.
 SELECT industry, ROUND(revenue)as revenue_in_millions,
 CASE WHEN revenue >= 500 THEN "Highest Revenue Industry"
 WHEN revenue >= 400 THEN "$400 Million+"
@@ -68,6 +69,7 @@ FROM fortune_companies
 GROUP BY industry
 ORDER BY revenue desc;
 
+#POV You're a recent college graduate looking for bigger companies in the Fortune 500 to work for, specifically ones with 100,000+ employees and doing at minimum 100M in revenue. 
 SELECT count(industry) as companies_in_industry, ROUND(revenue)as revenue_in_millions, industry, SUM(employees) as total_employees
 FROM fortune_companies
 GROUP BY industry
@@ -75,6 +77,7 @@ HAVING total_employees >=100000
 AND revenue_in_millions >= 100
 ORDER BY total_employees desc;
 
+#POV You're a Fortune 500 company deciding what healthcare benefits and paid time off days other companies your size are providing their employees.
 SELECT *
 FROM fortune_companies
 WHERE revenue >= 200
@@ -83,11 +86,13 @@ AND healthcare_benefits >= 0
 AND paid_time_off_days >= 10
 ORDER BY revenue desc;
 
+#POV You're a senior in highschool looking to see the industries in highest demand in terms of revenue to choose your college major.
 SELECT industry as "Industry", ROUND(avg(revenue)) as "Average Revenue"
 FROM fortune_companies
 GROUP BY industry
 ORDER BY revenue desc;
 
+#POV You're a Fortune 500 company wanting to see how big your company is compared to others in terms of employees.
 SELECT company_name, employees,
 CASE WHEN employees >100000 THEN "Massive company"
 WHEN employees >=50000 THEN "Mid-size Company"
@@ -96,3 +101,9 @@ ELSE "TINY COMPANY"
 END AS "Company size by employee count"
 FROM fortune_companies
 ORDER BY employees desc;
+
+#POV You're a FinTech employee looking at other potential companies to transfer to.
+SELECT *
+FROM fortune_companies
+WHERE industry = 'Technology' OR industry = 'Finance'
+ORDER BY ROUND(revenue)desc;
