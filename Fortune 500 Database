@@ -58,6 +58,7 @@ VALUES
     ('Company KK', 'Healthcare', 150.2, 3400, 0, 16, 8, 5.3);
 
 #POV You're a Fortune 500 Company trying to see where you stand in comparison to others in terms of revenue.
+#Rank the highest to lowest revenue generating industries in the Fortnue 500.
 SELECT industry, ROUND(revenue)as revenue_in_millions,
 CASE WHEN revenue >= 500 THEN "Highest Revenue Industry"
 WHEN revenue >= 400 THEN "$400 Million+"
@@ -70,6 +71,7 @@ GROUP BY industry
 ORDER BY revenue desc;
 
 #POV You're a recent college graduate looking for bigger companies in the Fortune 500 to work for, specifically ones with 100,000+ employees and doing at minimum 100M in revenue. 
+#What companies have 100,000+ employees and are generating 100M in revenue at minimum?
 SELECT count(industry) as companies_in_industry, ROUND(revenue)as revenue_in_millions, industry, SUM(employees) as total_employees
 FROM fortune_companies
 GROUP BY industry
@@ -78,6 +80,7 @@ AND revenue_in_millions >= 100
 ORDER BY total_employees desc;
 
 #POV You're a Fortune 500 company deciding what healthcare benefits and paid time off days other companies your size are providing their employees.
+#What healthcare benefits and PTO days are companies doing 200M in revenue and have over 10,000 employees providing their current employees?
 SELECT *
 FROM fortune_companies
 WHERE revenue >= 200
@@ -87,12 +90,14 @@ AND paid_time_off_days >= 10
 ORDER BY revenue desc;
 
 #POV You're a senior in highschool looking to see the industries in highest demand in terms of revenue to choose your college major.
+#Which industries have the highest demand and are generating the most revenue for the economy?
 SELECT industry as "Industry", ROUND(avg(revenue)) as "Average Revenue"
 FROM fortune_companies
 GROUP BY industry
 ORDER BY revenue desc;
 
 #POV You're a Fortune 500 company wanting to see how big your company is compared to others in terms of employees.
+#Where does my company stand in the Fortune 500 in terms of employees?
 SELECT company_name, employees,
 CASE WHEN employees >100000 THEN "Massive company"
 WHEN employees >=50000 THEN "Mid-size Company"
@@ -102,8 +107,17 @@ END AS "Company size by employee count"
 FROM fortune_companies
 ORDER BY employees desc;
 
-#POV You're a FinTech employee looking at other potential companies to transfer to.
+#POV You're a college graduate looking for the average Fortune 500 Paid Time off, Healthcare Benefits, and Maternity Leave across all industries.
+#What are the average PTO, Healthcare Benefits, and Maternity Leave Weeks typically provided to employees?
+SELECT industry, avg(paid_time_off_days) AS PTO, avg(healthcare_benefits) AS Healthcare_Benefits, avg (maternity_leave_weeks) AS Maternity_Leave_Weeks
+FROM fortune_companies;
+
+#POV You're a female college graduate looking for companies that treat their employees the best in the Finance or Technology field.
+#Which companies in the Fortune 500, specifically in the Finance/Tech field, will give me healthcare benefits, a minimum 6 week maternity leave in case I want to start a family, and 12 paid time off days for my vacations to Japan?
 SELECT *
 FROM fortune_companies
 WHERE industry = 'Technology' OR industry = 'Finance'
+AND healthcare_benefits >= 0
+AND maternity_leave_weeks >= 6
+AND paid_time_off_days >= 12
 ORDER BY ROUND(revenue)desc;
