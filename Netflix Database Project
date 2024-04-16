@@ -1,4 +1,6 @@
-"This project utilized data from the following Netflix dataset"
+# This project utilized data from the following Netflix dataset
+
+# The project was written using PostgreSQL dialect and utilized data from the folowing two Netflix datasets:
 
 CREATE TABLE netflix_titles_info
     ("show_id" varchar(5), "type" varchar(7), "title" varchar(58), "country" varchar(74), "date_added" timestamp, "release_year" int, "rating" varchar(5), "duration" varchar(9), "listed_in" varchar(74))
@@ -57,28 +59,28 @@ VALUES
     ('s19', 'Adam Salky', 'Freida Pinto| Logan Marshall-Green| Robert John Burke| Megan Elisabeth Kelly| Sarah Minnich| Hayes Hargrove| Mark Sivertsen| Brandon Fierro| Antonio Valles| Clint Obenchain'),
     ('s20', NULL, 'Blanca SuÃ¡rez| IvÃ¡n Marcos| Ã“scar Casas| AdriÃ¡n Lastra| Francesc Garrido| Stefan Weinert| Julia MÃ¶ller| Alicia Chojnowski')
     ;
-1. How many movie titles are there in the database?
+#1. How many movie titles are there in the database?
 SELECT COUNT(title)
 FROM "netflix_titles_info"
 WHERE type = 'Movie';
 
-2. When was the most recent batch of tv shows and/or movies added to the database?
+#2. When was the most recent batch of tv shows and/or movies added to the database?
 SELECT MAX(date(date_added))
 FROM "netflix_titles_info";
 
-3. List all the movies and tv  shows in alphabetical order.
+#3. List all the movies and tv  shows in alphabetical order.
 SELECT title, type
 FROM "netflix_titles_info"
 ORDER BY title asc;
 
-4. Who was the Director for the movie The Starling
+#4. Who was the Director for the movie The Starling
 SELECT NP.director
 FROM "netflix_titles_info" NTI
 INNER JOIN "netflix_people" NP
 ON NP.show_id = NTI.show_id
 WHERE title = 'The Starling';
 
-5. What is the oldest movie in the database and what year was it made?
+#5. What is the oldest movie in the database and what year was it made?
 SELECT title, release_year
 FROM "netflix_titles_info"
 WHERE type = 'Movie'
