@@ -29,48 +29,48 @@ VALUES
 
 #For this project, I used SQL to query the Superstore database to get information about items sold at the store and their prices. 
 
-#Use a SELECT statement to order the items by price.
+#Rank the items in the superstore by price.
 SELECT price, item_name
 FROM superstore
 ORDER BY price desc;
 
-#Show a statistic about the item prices.
+#What's the total cost of all items in the superstore?
 SELECT sum(price)
 FROM superstore
 ORDER BY sum(price);
 
-#Show a statistic about the item prices.
+#What's the average price of items in the superstore?
 SELECT avg(price)
 FROM superstore
 ORDER BY price desc;
 
-#Show a statistic about the item prices.
+#What's the most expensive item?
 SELECT MAX(price)
 FROM superstore;
 
-#Show a statistic about the item prices.
+#What's the least expensive item?
 SELECT MIN(price)
 FROM superstore;
 
-#Show a statistic about the item prices.
+#How many items are there in the store?
 SELECT COUNT(price)
 FROM superstore;
 
-#Show a statistic about the price for items in the category of "Kitchen Supplies". 
+#What's the average price of each item in the Kitchen Supplies category?
 SELECT avg(price), item_name
 FROM superstore
 WHERE category='Kitchen Supplies'
 GROUP BY item_name
 ORDER BY avg(price)desc;
 
-#Show a statistic about the price for items in the category of "Kitchen Supplies". 
+#What's the total price of all items combined in the Kitchen Supplies category? 
 SELECT sum(price), item_name
 FROM superstore
 WHERE category='Kitchen Supplies'
 GROUP BY item_name
 ORDER BY sum(price) desc;
 
-#Show a statistic about the price for items in the category of "Kitchen Supplies". 
+#What's the total inventory of all items combined in the Kitchen Supplies category? 
 SELECT sum(stock_quantity), item_name
 FROM superstore
 WHERE category='Kitchen Supplies'
