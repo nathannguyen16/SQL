@@ -1,15 +1,20 @@
+#In this SQL, I'm queryting a database with multiple tables in it to quantify statistics about customer order data for music tracks and albums. 
+
+#1. Which country is generating the most revenue and how much have they generated?
 SELECT sum(Total) as Revenue, BillingCountry
 FROM chinook.invoices
 GROUP BY BillingCountry
 ORDER BY sum(total) desc
 LIMIT 1;
 
+#2. Which are the top 3 cities generating the most revenue?
 SELECT sum(Total) as Revenue, BillingCity
 FROM chinook.invoices
 GROUP BY BillingCity
 ORDER BY sum(total) desc
 LIMIT 3;
 
+#3. What are the top 3 tracks generating the most revenue?
 SELECT InvoiceId, Name, sum(Total) as Revenue
 FROM chinook.invoice_items
 LEFT JOIN invoices
@@ -20,6 +25,7 @@ GROUP BY Name
 ORDER BY sum(total) desc
 LIMIT 3;
 
+#4. What track is the most popular in the city generating the most reveue?
 SELECT Name, sum(Total) as Revenue, BillingCIty
 FROM chinook.invoices
 LEFT JOIN invoice_items
@@ -30,12 +36,14 @@ GROUP BY BillingCity
 ORDER BY Revenue desc
 LIMIT 1;
 
+#5. Show customers who are not in the US. 
 SELECT FirstName, LastName, CustomerId, Country
 FROM chinook.customers
 WHERE Country <> 'USA'
 GROUP BY Country
 ORDER BY CustomerId;
 
+#6. Find the Invoices of customers who are from Brazil. The resulting table should show the customer's full name, Invoice ID, Date of the invoice, and billing country.
 SELECT FirstName, LastName, customers.CustomerId, invoices.InvoiceDate, Country
 FROM chinook.customers
 LEFT JOIN invoices
@@ -44,11 +52,12 @@ WHERE Country = 'Brazil'
 GROUP BY Country
 ORDER BY customers.CustomerId;
 
+#7. Show the Employees who are Sales Agents.
 SELECT FirstName, LastName, EmployeeId, Title
 FROM chinook.employees
 WHERE Title = 'Sales Support Agent';
 
-SELECT tracks.Name as TrackName, BillingCountry, UnitPrice, sum(Total) as Revenue
+#8. What are the most popular tracks in the UK and what is the highest selling track priced at?
 FROM chinook.tracks
 RIGHT JOIN invoice_items
 ON invoice_items.TrackId = tracks.TrackId
@@ -58,6 +67,7 @@ WHERE BillingCountry = 'United Kingdom'
 GROUP BY TrackName
 ORDER BY Revenue desc; 
 
+#9. Provide a query that shows the invoices associated with each sales agent. The resulting table should include the Sales Agent's full name. Show the Invoice Total, Customer name, Country, and Sales Agent name for all invoices and customers.
 SELECT employees.FirstName as SalesRepFN, employees.LastName as SalesRepLN, Total, customers.FirstName as CustomersFN, customers.LastName as CustomersLN, invoiceId
 FROM chinook.customers
 RIGHT JOIN employees
@@ -67,10 +77,12 @@ ON invoices.CustomerId = customers.CustomerId
 GROUP BY InvoiceId
 ORDER BY TOTAL desc;
 
+#10. How many Invoices were there in 2009 AND total sales for 2009?
 SELECT count(InvoiceId), sum(Total)
 FROM chinook.invoices
 WHERE InvoiceDate LIKE '%2009%';
 
+#11. Write a query that includes the purchased track name with each invoice line ID, AND artist name.
 SELECT Name, Composer, InvoiceLineId
 FROM tracks
 LEFT JOIN invoice_items
@@ -78,6 +90,7 @@ ON invoice_items.TrackId = tracks.TrackId
 GROUP BY Name
 ORDER BY InvoiceLineId desc;
 
+#12. Provide a query that shows all the Tracks, and include the Album name, Media type, and Genre.
 SELECT tracks.Name as SongName, albums.Title as Album, media_types.Name as MediaType, genres.Name as Genre
 FROM tracks
 LEFT JOIN albums 
@@ -88,6 +101,7 @@ LEFT JOIN genres
 ON genres.GenreId = tracks.GenreId
 GROUP BY albums.Title;
 
+#13. Show the total sales made by each sales agent.
 SELECT COUNT(InvoiceId), employees.FirstName as SalesRepFirstName, employees.LastName as SalesRepLastName
 FROM employees
 LEFT JOIN customers
@@ -97,6 +111,7 @@ ON invoices.CustomerId = customers.CustomerId
 GROUP BY SalesRepFirstName
 ORDER BY COUNT(InvoiceId) desc;
 
+#14. Which sales agent made the most dollars in sales in 2009?
 SELECT SUM(Total) as SalesRevenue, employees.FirstName as SalesRepFirstName, employees.LastName as SalesRepLastName
 FROM invoices
 LEFT JOIN customers
